@@ -1,5 +1,4 @@
 name: Windows build
-
 on:
   workflow_dispatch:
   push:
@@ -7,13 +6,10 @@ on:
     tags: [ "v[0-9]+.*" ]
   pull_request:
     branches: [ "master", "fixes" ]
-
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-
 jobs:
-
   cjson:
     runs-on: windows-2022
     steps:
@@ -21,13 +17,10 @@ jobs:
         with:
           repository: DaveGamble/cJSON
           ref: v1.7.15
-
       - name: Configure CMake cJSON
         run: cmake -B ${{github.workspace}}/build64 -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DENABLE_CJSON_TEST=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_SHARED_AND_STATIC_LIBS=OFF -DCJSON_BUILD_SHARED_LIBS=OFF -DCJSON_OVERRIDE_BUILD_SHARED_LIBS=OFF -DCMAKE_GENERATOR_PLATFORM=x64
-
       - name: Build cJSON
         run: cmake --build ${{github.workspace}}/build64 --config ${{env.BUILD_TYPE}}
-
       - name: Install cJSON
         run: cmake --install ${{github.workspace}}/build64 --config ${{env.BUILD_TYPE}}
 
